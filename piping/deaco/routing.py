@@ -7,7 +7,7 @@ import numpy as np
 from .aco import run_deaco
 from .connections import _build_port_lookup, _refresh_connections_from_ports, attach_connection_parameter_overrides, build_connections_from_config, build_tee_usage_map, filter_voxels_near_ports, infer_default_connections, insert_virtual_tees
 from .fitness import calculate_path_fitness_green
-from .grid import build_obstacles, build_sdbb_for_device, check_point_in_obstacles, create_3d_grid_state_matrix, ensure_virtual_ports_clear_in_grid, remove_port_obstacles, update_state_matrix_with_path, voxelize_path, world_to_grid
+from .grid import build_obstacles, build_sdbb_for_device, create_3d_grid_state_matrix, ensure_virtual_ports_clear_in_grid, remove_port_obstacles, update_state_matrix_with_path, voxelize_path, world_to_grid
 from .layout_io import create_placed_devices, load_layout_config, parse_scene_bounds
 from .parameters import DEACOParameters, clone_params_with_override, initialize_scene_normalization_ranges, validate_parameters
 from .types import RoutingResult, snap
@@ -196,87 +196,6 @@ def validate_manhattan_path(path, tolerance=1e-06):
         if num_changes != 1:
             invalid_segments.append({'segment_index': i, 'from': path[i], 'to': path[i + 1], 'diff': diff.tolist(), 'num_changes': int(num_changes), 'changed_axes': [axis_name for axis_name, changed in zip(['X', 'Y', 'Z'], changes) if changed]})
     return {'is_valid': len(invalid_segments) == 0, 'total_segments': len(path) - 1, 'invalid_segments': invalid_segments, 'invalid_count': len(invalid_segments)}
-
-def debug_path_obstacles(path, connection_name, state_matrix, grid_info, device_obstacles=None, verbose=True):
-    if not path or len(path) == 0:
-        return None
-    manhattan_result = validate_manhattan_path(path, tolerance=1e-06)
-    if verbose:
-        if manhattan_result['is_valid']:
-            logger.debug(
-                "Path for %s is Manhattan-valid with %s segments.",
-                connection_name,
-                manhattan_result['total_segments'],
-            )
-        else:
-            logger.debug(
-                "Path for %s has %s non-Manhattan segments.",
-                connection_name,
-                manhattan_result['invalid_count'],
-            )
-            for seg in manhattan_result['invalid_segments'][:5]:
-                logger.debug(
-                    "Invalid segment %s: %s -> %s, changed_axes=%s.",
-                    seg['segment_index'],
-                    seg['from'],
-                    seg['to'],
-                    seg['changed_axes'],
-                )
-            if manhattan_result['invalid_count'] > 5:
-                logger.debug(
-                    "Additional invalid segments omitted: %s.",
-                    manhattan_result['invalid_count'] - 5,
-                )
-    stats = {'total_points': len(path), 'in_sdbb': 0, 'in_voxel': 0, 'in_both': 0, 'free': 0, 'out_of_bounds': 0}
-    problem_points = []
-    for idx, point in enumerate(path):
-        result = check_point_in_obstacles(point, state_matrix, grid_info, device_obstacles=device_obstacles, debug=False)
-        if result['grid_index'] is None or result['grid_value'] is None:
-            stats['out_of_bounds'] += 1
-            if verbose:
-                logger.debug("Path point %s for %s is out of bounds: %s.", idx, connection_name, point)
-            problem_points.append((idx, point, 'out_of_bounds'))
-        elif result['in_sdbb'] and result['in_voxel']:
-            stats['in_both'] += 1
-            if verbose:
-                grid_idx = result['grid_index']
-                logger.debug(
-                    "Path point %s for %s intersects SDBB and voxel obstacles at grid %s: %s.",
-                    idx,
-                    connection_name,
-                    grid_idx,
-                    point,
-                )
-            problem_points.append((idx, point, 'sdbb_and_voxel'))
-        elif result['in_sdbb']:
-            stats['in_sdbb'] += 1
-            if verbose:
-                grid_idx = result['grid_index']
-                logger.debug(
-                    "Path point %s for %s intersects SDBB obstacles at grid %s: %s.",
-                    idx,
-                    connection_name,
-                    grid_idx,
-                    point,
-                )
-            problem_points.append((idx, point, 'sdbb'))
-        elif result['in_voxel']:
-            stats['in_voxel'] += 1
-            if verbose:
-                logger.debug("Path point %s for %s intersects voxel obstacles: %s.", idx, connection_name, point)
-            problem_points.append((idx, point, 'voxel'))
-        else:
-            stats['free'] += 1
-            if verbose and idx % 10 == 0:
-                grid_idx = result['grid_index']
-                logger.debug("Path point %s for %s is free at grid %s: %s.", idx, connection_name, grid_idx, point)
-    if verbose and problem_points:
-        logger.debug("Path for %s has %s obstacle/problem points.", connection_name, len(problem_points))
-        for idx, point, problem_type in problem_points[:10]:
-            logger.debug("Problem point %s: type=%s, point=%s.", idx, problem_type, point)
-        if len(problem_points) > 10:
-            logger.debug("Additional problem points omitted: %s.", len(problem_points) - 10)
-    return stats
 
 def route_connection(
     connection_idx: int,

@@ -6,7 +6,7 @@ This document references the original figures from the WWW 2026 paper rather tha
 
 ![Figure 1: Configuring ACO hyperparameters is non-trivial in complex multi-connection scenes.](assets/paper_figures/paper_figure_1_problem_motivation.png)
 
-**Figure 1.** Configuring ACO hyperparameters is non-trivial in complex multi-connection scenes, whereas a reinforcement learning agent can adapt them to each context, reducing design effort and improving path quality.
+**Figure 1.** Motivation for adaptive ACO hyperparameter tuning in complex multi-connection scenes.
 
 ## Web Platform Workflow
 
@@ -18,7 +18,7 @@ This document references the original figures from the WWW 2026 paper rather tha
 
 ![Figure 3: GRL-DEACO actor-critic architecture with graph-aware perception.](assets/paper_figures/paper_figure_3_actor_critic_architecture.png)
 
-**Figure 3.** GRL-DEACO actor-critic architecture with graph-aware perception. This is the main framework figure for the public implementation: `piping/graph_neural_networks.py`, `piping/ppo_trainer.py`, `piping/environment.py`, and `piping/deaco/` implement the graph-aware policy, action mapping, PPO update, and DEACO-Green routing loop shown in the figure.
+**Figure 3.** GRL-DEACO actor-critic architecture with graph-aware perception. In this repository, `piping/graph_neural_networks.py`, `piping/ppo_trainer.py`, `piping/environment.py`, and `piping/deaco/` implement the graph-aware policy, action mapping, PPO update, and DEACO-Green routing loop shown in the figure.
 
 ## Attention and Evaluation Figures
 

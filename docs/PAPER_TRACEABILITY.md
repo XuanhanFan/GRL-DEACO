@@ -1,12 +1,12 @@
 # Paper Traceability
 
-This document maps the WWW 2026 paper artifact to the public code paths used for reproduction:
+This document maps the WWW 2026 paper artifact to the public code paths used by this repository:
 
 **Green Industrial Engineering on the Web: Agent-Driven Ant Colony Optimization Tuning for Energy-Efficient 3D Pipe Routing**.
 
-The goal is to make each algorithmic component, formula family, metric, and configurable constant traceable from the paper narrative to code and configuration. The public repository reproduces the method and experiment pipeline; exact table values still require compatible scenario splits and GLB assets.
+The goal is to make each algorithmic component, formula family, metric, and configurable constant traceable from the paper narrative to code and configuration. The repository exposes the method and experiment pipeline; table-level numerical comparison still requires compatible scenario splits and GLB assets.
 
-## Source of Truth
+## Main References
 
 - Public configuration: `configs/paper_reproduction_config.yaml`
 - Minimal runnable configuration: `configs/public_example_config.yaml`
@@ -102,10 +102,10 @@ python piping/train.py \
   --seed 2026
 ```
 
-## Public Artifact Boundaries
+## Artifact Boundaries
 
 - The public code does not redistribute private GLB equipment assets, proprietary industrial layouts, trained checkpoints, or experiment logs.
-- The core DEACO-Green implementation lives in `piping/deaco/`; removed prototype modules are not part of the reproduction path.
+- The core DEACO-Green implementation lives in `piping/deaco/`; removed monolithic scripts are not part of the reproduction path.
 - The exploratory adaptive-q0 script is intentionally not exposed as a core module. The reproducible q0 behavior is the `A_q0/B_q0/delta_gamma` policy in `piping/deaco/aco.py`.
 - CLI scripts may print final summaries for users. Library modules use `logging` so training, evaluation, and JSON outputs stay clean.
-- Paper-level numerical reproduction requires equivalent scenario splits and GLB assets. With user-provided compatible assets, the repository supports method reproduction, ablation, and regression testing.
+- Table-level comparison requires equivalent scenario splits and GLB assets. With user-provided compatible assets, the repository supports method-level runs, ablation, and regression testing.

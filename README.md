@@ -1,6 +1,6 @@
 # GRL-DEACO: Green 3D Pipe Routing with RL-Tuned Ant Colony Optimization
 
-Official public code artifact for:
+Public code for:
 
 **Green Industrial Engineering on the Web: Agent-Driven Ant Colony Optimization Tuning for Energy-Efficient 3D Pipe Routing**
 WWW 2026, DOI: `10.1145/3774904.3793013`
@@ -12,16 +12,16 @@ GRL-DEACO combines a DEACO-Green 3D pipe router with a graph-aware PPO policy. F
 | Level | Supported by this repository | Required inputs |
 |---|---|---|
 | Static checks | Import checks, CLI help, config loading, and paper-to-code traceability | No private assets |
-| Method reproduction | Run DEACO-Green, train/evaluate GRL-DEACO, and collect reported metrics | Compatible layout JSON files and GLB equipment models |
-| Full paper-table reproduction | Recreate the numerical tables from the paper | Equivalent industrial GLB assets and scenario splits |
+| Method-level runs | Run DEACO-Green, train/evaluate GRL-DEACO, and collect reported metrics | Compatible layout JSON files and GLB equipment models |
+| Paper-scale reruns | Run the same evaluation pipeline at the scale described in the paper | Equivalent industrial GLB assets and scenario splits |
 
-The original experiments used private industrial assets that cannot be redistributed. This repository therefore provides the complete public implementation and configuration surface, while leaving private GLB files, proprietary layouts, checkpoints, logs, and generated outputs outside the artifact.
+The original experiments used private industrial assets that cannot be redistributed. This repository provides the public implementation and configuration needed to run the method, while leaving private GLB files, proprietary layouts, checkpoints, logs, and generated outputs outside the artifact.
 
 ## Framework Figure
 
 ![GRL-DEACO actor-critic architecture with graph-aware perception.](docs/assets/paper_figures/paper_figure_3_actor_critic_architecture.png)
 
-The full set of original paper figures used by this public artifact is available in `docs/FRAMEWORK_OVERVIEW.md`.
+Additional original paper figures referenced by this repository are available in `docs/FRAMEWORK_OVERVIEW.md`.
 
 ## Main Components
 
@@ -96,7 +96,7 @@ Each layout JSON should define scene bounds, device placements, port metadata, a
 
 ## Configuration
 
-`configs/paper_reproduction_config.yaml` is the public source of truth for:
+`configs/paper_reproduction_config.yaml` is the main public configuration file for:
 
 - Paper metadata and expected split description
 - Physical constants used by green fitness calculations
@@ -238,12 +238,6 @@ Metrics are collected through `piping/metrics_collector.py` and per-connection `
 - fixed-parameter and trained-policy evaluation metrics
 
 `docs/FRAMEWORK_OVERVIEW.md` references the original paper figures for the problem motivation, web platform workflow, GRL-DEACO actor-critic framework, attention visualization, and evaluation behavior.
-
-## Baseline and Asset Boundary
-
-The paper discusses A*, GA without green terms, DEACO without green terms, DEACO-Green, and GRL-DEACO. This public codebase exposes the DEACO-Green routing core, the learned GRL-DEACO training/evaluation stack, and lightweight routing baseline utilities. Private assets and non-public experiment scripts are intentionally excluded.
-
-When reporting new results from this artifact, state the GLB library, scenario split, config file, checkpoint, and git commit used for the run.
 
 ## Documentation
 

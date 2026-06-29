@@ -1,6 +1,6 @@
 # Reproducibility Guide
 
-This guide documents how to reproduce the public GRL-DEACO artifact for the WWW 2026 paper.
+This guide documents how to run the public GRL-DEACO artifact for the WWW 2026 paper.
 
 ## 1. Environment
 
@@ -12,11 +12,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Use a CUDA-enabled PyTorch build for full training runs. CPU execution is suitable for syntax checks, small routing smoke tests, and fixed-parameter DEACO debugging.
+Use a CUDA-enabled PyTorch build for longer training runs. CPU execution is suitable for syntax checks, small routing smoke tests, and fixed-parameter DEACO debugging.
 
 ## 2. Inputs
 
-The full paper results require a compatible GLB equipment library and scenario splits. The private industrial assets used for the paper are not redistributed.
+Paper-scale numerical comparisons require a compatible GLB equipment library and scenario splits. The private industrial assets used for the paper are not redistributed.
 
 Expected split shape:
 
@@ -31,7 +31,7 @@ The paper protocol uses 100 scenarios: 64 train, 16 validation, and 20 test. The
 
 ## 3. Configuration
 
-Use `configs/paper_reproduction_config.yaml` as the public source of truth for:
+Use `configs/paper_reproduction_config.yaml` as the main public configuration file for:
 
 - paper metadata and DOI
 - public physical constants from the appendix
@@ -40,7 +40,7 @@ Use `configs/paper_reproduction_config.yaml` as the public source of truth for:
 - action ranges for the 29-dimensional DEACO hyperparameter vector
 - expected metrics and baselines
 
-See `docs/PAPER_TRACEABILITY.md` for the paper-to-code mapping of algorithms, formula families, metrics, and configuration keys.
+See `docs/FRAMEWORK_OVERVIEW.md` for original paper figures and `docs/PAPER_TRACEABILITY.md` for the paper-to-code mapping of algorithms, formula families, metrics, and configuration keys.
 
 Local paths can be overridden from the CLI:
 
@@ -110,4 +110,4 @@ A public artifact run is considered healthy when:
 - the trained-policy evaluator writes `test_metrics.json` and detailed connection records
 - no private GLB assets, layouts, checkpoints, logs, or generated outputs are tracked
 
-Exact numerical reproduction of the paper tables requires equivalent GLB assets and generated layouts. Without those assets, the code supports method reproduction and regression testing on user-provided scenes.
+Numerical agreement with the paper tables requires equivalent GLB assets and generated layouts. Without those assets, the code supports method-level runs and regression testing on user-provided scenes.
