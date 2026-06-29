@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+title: "GRL-DEACO: Green Industrial Engineering on the Web"
+message: "If you use this code, please cite the WWW 2026 paper."
+type: software
+authors:
+  - family-names: Fan
+    given-names: Xuanhan
+  - family-names: Ding
+    given-names: Rui
+  - family-names: Liu
+    given-names: Haojie
+  - family-names: Zhou
+    given-names: Jibin
+  - family-names: Liu
+    given-names: Han
+  - family-names: Li
+    given-names: Yuanman
+  - family-names: Wang
+    given-names: Wei
+  - family-names: Ye
+    given-names: Mao
+doi: 10.1145/3774904.3793013
+url: "https://github.com/XuanhanFan/GRL-DEACO"
+preferred-citation:
+  type: conference-paper
+  title: "Green Industrial Engineering on the Web: Agent-Driven Ant Colony Optimization Tuning for Energy-Efficient 3D Pipe Routing"
+  authors:
+    - family-names: Fan
+      given-names: Xuanhan
+    - family-names: Ding
+      given-names: Rui
+    - family-names: Liu
+      given-names: Haojie
+    - family-names: Zhou
+      given-names: Jibin
+    - family-names: Liu
+      given-names: Han
+    - family-names: Li
+      given-names: Yuanman
+    - family-names: Wang
+      given-names: Wei
+    - family-names: Ye
+      given-names: Mao
+  conference:
+    name: "Proceedings of the ACM Web Conference 2026"
+  year: 2026
+  doi: 10.1145/3774904.3793013

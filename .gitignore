@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments
+.venv/
+venv/
+env/
+conda-meta/
+
+# Private datasets and industrial assets
+data/
+datasets/
+scenarios*/
+*_dataset*/
+static/glb/
+*.glb
+*.obj
+*.stl
+
+# Private model artifacts and checkpoints
+*.pth
+*.pt
+*.ckpt
+trained_models*/
+checkpoints/
+fold_*_training*/
+
+# Logs, metrics, and generated results
+*.log
+logs/
+results*/
+evaluation_results*/
+deaco_evaluation_results*/
+astar_evaluation_results*/
+result_trained*/
+deploy_outputs/
+attention_results*/
+visualizations/
+
+# Local scratch
+.DS_Store
+*.tmp
+*.bak
+*.pdf
